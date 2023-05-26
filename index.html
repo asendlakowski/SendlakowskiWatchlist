@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+	<title>Age Guesser API</title>
+	<meta charset="utf-8"/>
+	<script>
+		function getAge() {
+			/* Step 1: Make instance of request object...
+			...to make HTTP request after page is loaded*/
+			request = new XMLHttpRequest();
+			console.log("1 - request object created");
+ 
+			// Step 2: Set the URL for the AJAX request to be the JSON file
+ 
+		request.open("GET", "https://api.agify.io/?name=alana", true)
+
+			console.log("2 - opened request file");
+ 
+			// Step 3: set up event handler/callback
+
+			request.onreadystatechange = function() {
+				console.log("3 - readystatechange event fired.");
+ 
+				if (request.readyState == 4 && request.status == 200) {
+
+					// Step 5: wait for done + success
+					console.log("5 - response received");
+					let result = request.responseText;
+					let name = JSON.parse(result);
+                    console.log(JSON.stringify(name));
+					
+					document.getElementById("data").innerHTML ="guess of age based on name " + name.name + ": " + name.age + ". This means you would be born in " + name.count;
+					
+				}
+				else if (request.readyState == 4 && request.status != 200) {
+
+					document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
+
+				}
+
+				else if (request.readyState == 3) {
+
+					document.getElementById("data").innerHTML = "Too soon!  Try again";
+
+				}
+
+			}
+		// Step 4: fire off the HTTP request
+			request.send();
+			console.log("4 - Request sent");
+
+			// same but using fetch to get API info
+			res = fetch("https://api.agify.io/?name=alana")
+			.then (res => res.text())
+			.then (data => 
+			{
+				data = JSON.parse(data);
+				// alert(JSON.stringify(data));
+				let name = data.name;
+				let age = data.age;
+				let count = data.count;
+				document.getElementById("fetchData").innerHTML = "guess of age based on name " + name + ": " + age + ". This means you would be born in " + count;
+			})
+			.catch (error => console.log(error))
+		}
+	</script>
+</head>
+
+
+<body onload="getAge()" style="background-color: rgb(100, 182, 182);">
+
+	<h1>Age Guess</h1>
+	<h2>Using get</h2>
+	<div id="data">Loading...</div>
+	<h2>Using fetch</h2>
+	<div id="fetchData">Loading...</div>
+
+	<h2>Questions:</h2>
+
+	<p>I selected an API that guesses the users age based on their name, it outputs the inputted name, the guessed age and the corresponding birth year</p>
+	<p>I found this API on a list on https://mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis/ and the api itself comes from Agify.io</p>
+	<p>I inputted my name of "Alana" into the API and accessed and printed the guessed age and then birth year based on that guess.</p>
+	<p>This API could be used in a website or game that randomly generates a character based on the name (in order to get a ballpark of the age of a person). Could be used in a website that generates statistics about name popularity based on generations</p>
+
+</body>
+</html>
