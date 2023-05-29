@@ -1,75 +1,83 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Movie App</title>
+</head>
+<body>
+    
+    <header>
+        <ul class='nav'>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="watchlist.html">Watchlist</a></li>
+        </ul>
+        <!-- <div id="search"> -->
+        <form  id="form">
+            <input type="text" placeholder="Search" id="search" class="search">
+        </form>
+        <!-- </div> -->
+    </header>
+    <div id="tags"></div>
+    <div id="myNav" class="overlay">
+
+        <!-- Button to close the overlay navigation -->
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      
+        <!-- Overlay content -->
+        <div class="overlay-content" id="overlay-content"></div>
+        
+        <a href="javascript:void(0)" class="arrow left-arrow" id="left-arrow">&#8656;</a> 
+        
+        <a href="javascript:void(0)" class="arrow right-arrow" id="right-arrow" >&#8658;</a>
+
+      </div>
+    <main id="main"></main>
+    <div class="pagination">
+        <div class="page" id="prev">Previous Page</div>
+        <div class="current" id="current">1</div>
+        <div class="page" id="next">Next Page</div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+<!-- <!doctype html>
 <html>
 <head>
 	<title>Age Guesser API</title>
 	<meta charset="utf-8"/>
 	<script>
-		function getAge() {
-			/* Step 1: Make instance of request object...
-			...to make HTTP request after page is loaded*/
-			request = new XMLHttpRequest();
-			console.log("1 - request object created");
- 
-			// Step 2: Set the URL for the AJAX request to be the JSON file
- 
-		request.open("GET", "https://api.agify.io/?name=alana", true)
 
-			console.log("2 - opened request file");
- 
-			// Step 3: set up event handler/callback
+        const API_KEY = 'api_key=43bf92a51b60a8b4deffb0f71679da5d'
+        const BASE_URL = 'https://api.themoviedb.org/3';
+        const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&'+API_KEY;
+        const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+        const searchURL = BASE_URL + '/search/movie?'+API_KEY;
+        function start() {
+            // getMovies('https://api.themoviedb.org/3/trending/all/day?api_key=43bf92a51b60a8b4deffb0f71679da5d');
+            getMovies(API_URL);
+        }
+        
 
-			request.onreadystatechange = function() {
-				console.log("3 - readystatechange event fired.");
- 
-				if (request.readyState == 4 && request.status == 200) {
-
-					// Step 5: wait for done + success
-					console.log("5 - response received");
-					let result = request.responseText;
-					let name = JSON.parse(result);
-                    console.log(JSON.stringify(name));
-					
-					document.getElementById("data").innerHTML ="guess of age based on name " + name.name + ": " + name.age + ". This means you would be born in " + name.count;
-					
-				}
-				else if (request.readyState == 4 && request.status != 200) {
-
-					document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
-
-				}
-
-				else if (request.readyState == 3) {
-
-					document.getElementById("data").innerHTML = "Too soon!  Try again";
-
-				}
-
-			}
-		// Step 4: fire off the HTTP request
-			request.send();
-			console.log("4 - Request sent");
-
-			// same but using fetch to get API info
-			res = fetch("https://api.agify.io/?name=alana")
-			.then (res => res.text())
-			.then (data => 
-			{
-				data = JSON.parse(data);
-				// alert(JSON.stringify(data));
-				let name = data.name;
-				let age = data.age;
-				let count = data.count;
-				document.getElementById("fetchData").innerHTML = "guess of age based on name " + name + ": " + age + ". This means you would be born in " + count;
-			})
-			.catch (error => console.log(error))
-		}
+        function getMovies(url) {
+    lastUrl = url;
+        fetch(url).then(res => res.json()).then(data => {
+            console.log(data);
+        })
+    }
 	</script>
 </head>
 
 
-<body onload="getAge()" style="background-color: rgb(100, 182, 182);">
+<body onload="start()" style="background-color: rgb(100, 182, 182);">
 
-	<h1>Age Guess</h1>
+	 <h1>Age Guess</h1>
 	<h2>Using get</h2>
 	<div id="data">Loading...</div>
 	<h2>Using fetch</h2>
@@ -83,4 +91,4 @@
 	<p>This API could be used in a website or game that randomly generates a character based on the name (in order to get a ballpark of the age of a person). Could be used in a website that generates statistics about name popularity based on generations</p>
 
 </body>
-</html>
+</html> -->
