@@ -232,18 +232,19 @@ function showMovies(data) {
                 }
             };
             
-            fetch('https://api.themoviedb.org/3/account/19668013/watchlist/movies?language=en-US&page=1&sort_by=created_at.asc', options).then(res => res.json()).then(data => {
-                if(data.results.length !== 0){
-                    showMovies(data.results);
-                }
-            })
-            const inwatch = false;
-            data.forEach(watchlistmov => {
-                const {title, poster_path, vote_average, overview, wid} = watchlistmov;
-                if (wid == id) {
-                    inwatch = true;
-                }
-            })
+            //MAYBE PUSH IT TO ANOTHER FUNCTION TO COMPARE, MESSES THE FETCH UP I THINK TO PUT ANOTHER FETCH IN THE MIDDLE
+            // fetch('https://api.themoviedb.org/3/account/19668013/watchlist/movies?language=en-US&page=1&sort_by=created_at.asc', options).then(res => res.json()).then(data => {
+            //     if(data.results.length !== 0){
+            //         showMovies(data.results);
+            //     }
+            // })
+            // const inwatch = false;
+            // data.forEach(watchlistmov => {
+            //     const {title, poster_path, vote_average, overview, wid} = watchlistmov;
+            //     if (wid == id) {
+            //         inwatch = true;
+            //     }
+            // })
         // if (inwatch) {
         //     inner += `<button class="add-watchlist" id="add${id}" onclick="removeWatchlist(${id})" >-</button>
         //      `
@@ -282,6 +283,8 @@ function showMovies(data) {
 function removeWatchlist(id) {
     const change = "add" + id;
     document.querySelector("#" + change).innerText = "+";
+    document.getElementById(change).onclick = function() { addWatchlist(id); }
+
     // I THINK NEED TO CHANGE ON CLICK FUNCTION
     const options = {
         method: 'POST',
@@ -352,6 +355,7 @@ function addWatchlist(id) {
     const change = "add" + id;
     // const button = document.getElementsByClassName('add-watchlist');
     document.querySelector("#" + change).innerText = "-";
+    document.getElementById(change).onclick = function() { removeWatchlist(id); }
     console.log(id);
     const options = {
         method: 'POST',
