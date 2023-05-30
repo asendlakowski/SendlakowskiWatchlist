@@ -1,12 +1,17 @@
 /*tab bar styling*/
-ul.nav a{text-decoration:none; color: white; font-size: 25px; padding-top: 5px}
+ul.nav a{text-decoration:none; color: white; font-size: 25px; padding-top: 5px;}
 ul.nav a:hover {border-bottom: 1px solid #979797}
-ul.nav{list-style-type:none; position: relative; float:right;}
+ul.nav{list-style-type:none; position: relative; padding: 20px}
 ul.nav li {display: inline-block; padding: 0 50px}
 
-/* .search {
+.nav-right {
+    padding: 30px;
+    position: absolute;
+    right: 0px;
+    float: right;
+}
 
-} */
+.logo {max-width:14%; height:auto; padding: 20px;}
 
 /* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700&display=swap'); */
 
@@ -27,9 +32,9 @@ body{
 
 
 header{
-    padding:1rem;
+    /* padding:1rem; */
     display:flex;
-    justify-content: flex-end;
+    /* justify-content: flex-end; */
     background-color: var(--secondary-color);
 }
 
@@ -38,9 +43,8 @@ header{
     border: 2px solid var(--primary-color);
     padding:0.5rem 1rem;
     border-radius: 50px;
-    font-size: 1rem;
+    font-size: 20px;
     color:#fff;
-    justify-content: flex-end;
 
     /* font-family: inherit; */
 }
@@ -142,6 +146,10 @@ main{
     cursor: pointer;
 }
 
+.tag:hover{
+    background-color: rgb(246, 193, 96);
+}
+
 .tag.highlight{
     background-color: red;
 }
@@ -184,6 +192,25 @@ main{
     border-radius: 50px;
     padding: 10px 20px;
     margin-top: 5px;
+}
+
+.know-more:hover{
+    background-color: rgb(246, 193, 96);
+}
+
+.streaming{
+    background-color: orange;
+    color:white;
+    font-size: 16px;
+    font-weight: bold;
+    border:0;
+    border-radius: 50px;
+    padding: 10px 20px;
+    margin-top: 5px;
+}
+
+.streaming:hover{
+    background-color: rgb(246, 193, 96);
 }
 
 .add-watchlist{
