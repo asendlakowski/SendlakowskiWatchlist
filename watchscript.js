@@ -169,9 +169,9 @@ function setGenre() {
 }
 
 function filtertime(time) {
-    const movs = document.getElementsByClassName("movie");
+    const movs = document.getElementsByName("movie");
     for (let i = 0; i < movs.length; i++) {
-      if (parseInt(movs[i].name) > time) {
+      if (parseInt(movs[i].id) > time) {
         movs[i].style.display = "none"
       }
     }
@@ -261,8 +261,8 @@ function runtime(id) {
     document.querySelector("#" + change).value = data.runtime;
     document.querySelector("#" + change).innerText = "Runtime: " + data.runtime + " minutes";
     // return (data.runtime).toString();
-    document.getElementById(id).name = data.runtime;
-    if (document.getElementById(id).name == data.runtime) {
+    document.getElementById(id).id = data.runtime;
+    if (document.getElementById(id).id == data.runtime) {
       console.log("DID IT?")
     } else {
       console.log("NOPE")
@@ -279,9 +279,9 @@ function showMovies(data) {
     data.forEach(movie => {
         const {title, poster_path, vote_average, overview, id} = movie;
         const movieEl = document.createElement('div');
-        movieEl.classList.add('movie');
+        movieEl.classList.add('movie'); //class="movie" 
         movieEl.innerHTML = `
-            <div id="${id}" class="movie" name="" style="display:block">
+            <div id="${id}" name="movie" >
              <img src="${poster_path? IMG_URL+poster_path: "http://via.placeholder.com/1080x1580" }" alt="${title}">
              <button class="add-watchlist" id="${id}" onclick="removeWatchlist(${id})" >-</button>
 
