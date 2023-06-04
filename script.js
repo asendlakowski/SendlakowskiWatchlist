@@ -1,5 +1,8 @@
 //TMDB 
 
+//RUNTIME not totally working, there is no runtime category in original call so right now have it calling movie id a different way
+//in addition to get runtime
+
 //TO DO: Minus appears after add to watchlist but on refresh goes back to plus, need to compare displayed to watchlist to not display any on watchlist
 
 // THIS IS HOW TO GET PROVIDERS OF SPECIFIED MOVIE ID
@@ -9,7 +12,7 @@
 
 const API_KEY = 'api_key=43bf92a51b60a8b4deffb0f71679da5d';
 const BASE_URL = 'https://api.themoviedb.org/3';
-const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&'+API_KEY;
+const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&language=en-US&'+API_KEY;
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 const searchURL = BASE_URL + '/search/movie?'+API_KEY;
 
@@ -136,6 +139,34 @@ function setGenre() {
         })
         tagsEl.append(t);
     })
+    const t = document.createElement('div');
+    t.classList.add('tag');
+    t.id= "<=90";
+    t.innerText = "Runtime <= 90 minutes";
+    t.addEventListener('click', () => {
+      console.log("<=90");
+      
+      getMovies(API_URL + '&with_runtime.lte=90');
+      // highlightSelection()
+      t.classList.add('highlight');
+      clearBtn()
+    })
+    tagsEl.append(t);
+
+
+    const a = document.createElement('div');
+    a.classList.add('tag');
+    a.id= "<=120";
+    a.innerText = "Runtime <= 120 minutes";
+    a.addEventListener('click', () => {
+      console.log("<=120");
+      
+      getMovies(API_URL + '&with_runtime.lte=120');
+      // highlightSelection()
+      a.classList.add('highlight');
+      clearBtn()
+    })
+    tagsEl.append(a);
 }
 
 function highlightSelection() {
@@ -177,7 +208,9 @@ function clearBtn(){
 getMovies(API_URL);
 
 function getMovies(url) {
+  
   lastUrl = url;
+  console.log("url in displayWatchlist func: " + url);
     fetch(url).then(res => res.json()).then(data => {
         console.log(data.results)
         if(data.results.length !== 0){
@@ -210,45 +243,36 @@ function getMovies(url) {
 
 }
 
+function runtime(id) {
+  const change = "time" + id;
+  
+  fetch(BASE_URL + '/movie/'+id+'?language=en-US&'+API_KEY).then(res => res.json()).then(data => {
+    console.log(data.runtime)
+    document.querySelector("#" + change).value = data.runtime;
+    document.querySelector("#" + change).innerText = "Runtime: " + data.runtime + " minutes";
+    // return (data.runtime).toString();
+  })
+}
+
 
 function showMovies(data) {
     main.innerHTML = '';
 
     data.forEach(movie => {
         const {title, poster_path, vote_average, overview, id} = movie;
+        // var time;
+        // const time = runtime(id);
+        // fetch(BASE_URL + '/movie/'+id+'?language=en-US&'+API_KEY).then(res => res.json()).then(data => {
+        //   // console.log(typeof(data.runtime))
+        //   time = data.runtime;
+        // })
+        // console.log(title + "\n" + time)
         const movieEl = document.createElement('div');
         movieEl.classList.add('movie');
         inner = `
             <div>
              <img src="${poster_path? IMG_URL+poster_path: "http://via.placeholder.com/1080x1580" }" alt="${title}">'
              `
-             
-            //  opens watchlist
-             const options = {
-                method: 'GET',
-                headers: {
-                accept: 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0M2JmOTJhNTFiNjBhOGI0ZGVmZmIwZjcxNjc5ZGE1ZCIsInN1YiI6IjY0NzA0M2RjNTQzN2Y1MDBjMzI4MTFmZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.303ceOZyl59JzBaox2Gs64WF29znfm-LleFgjEFk_f0'
-                }
-            };
-            
-            //MAYBE PUSH IT TO ANOTHER FUNCTION TO COMPARE, MESSES THE FETCH UP I THINK TO PUT ANOTHER FETCH IN THE MIDDLE
-            // fetch('https://api.themoviedb.org/3/account/19668013/watchlist/movies?language=en-US&page=1&sort_by=created_at.asc', options).then(res => res.json()).then(data => {
-            //     if(data.results.length !== 0){
-            //         showMovies(data.results);
-            //     }
-            // })
-            // const inwatch = false;
-            // data.forEach(watchlistmov => {
-            //     const {title, poster_path, vote_average, overview, wid} = watchlistmov;
-            //     if (wid == id) {
-            //         inwatch = true;
-            //     }
-            // })
-        // if (inwatch) {
-        //     inner += `<button class="add-watchlist" id="add${id}" onclick="removeWatchlist(${id})" >-</button>
-        //      `
-        // } else {
             inner += `<button class="add-watchlist" id="add${id}" onclick="addWatchlist(${id})" >+</button>
              `
         // }
@@ -262,16 +286,18 @@ function showMovies(data) {
                 <h3>Overview</h3>
                 ${overview}
                 <br/> 
+                <h3 id="time${id}" value="" class="runtime">Runtime: minutes<h3>
                 <button class="know-more" id="know${id}" onclick="openNav(${id})">Know More</button>
             </div>
             </div>
         
         `
         movieEl.innerHTML = inner;
-        console.log("HELLO" + id);
+        // console.log("HELLO" + id);
         // <span class="${getColor(vote_average)}">${vote_average}</span>
 
         main.appendChild(movieEl);
+        runtime(id);
 
         // document.getElementById(id).addEventListener('click', () => {
         //   console.log(id)
@@ -279,6 +305,8 @@ function showMovies(data) {
         // })
     })
 }
+
+
 
 function removeWatchlist(id) {
     const change = "add" + id;
@@ -310,7 +338,7 @@ function openNav(id) {
     // console.log(id + "ID" + title + "TITLE")
 //   let id = movie.id;
   fetch(BASE_URL + '/movie/'+id+'/videos?'+API_KEY).then(res => res.json()).then(videoData => {
-    console.log(videoData);
+    console.log("this is video data" + videoData);
     if(videoData){
       document.getElementById("myNav").style.width = "100%";
       if(videoData.results.length > 0){
