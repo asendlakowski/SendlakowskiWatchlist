@@ -4,6 +4,11 @@ ul.nav a:hover {border-bottom: 1px solid #979797}
 ul.nav{list-style-type:none; position: relative; padding: 20px}
 ul.nav li {display: inline-block; padding: 0 50px}
 
+.header-container {
+    display: flex;
+    align-items: center;
+}
+
 .nav-right {
     padding: 30px;
     position: absolute;
@@ -45,6 +50,7 @@ header{
     border-radius: 50px;
     font-size: 20px;
     color:#fff;
+    
 
     /* font-family: inherit; */
 }
@@ -290,6 +296,43 @@ main{
       right: 35px;
     }
   }
+
+    @media (max-width: 1150px)
+    {
+        .logo {max-width:25%; height:auto; padding: 20px;}
+        /* ul.nav li {padding: 0 10px} */
+    }
+
+    @media (max-width: 950px)
+    {
+        /* .logo {max-width:25%; height:auto; padding: 20px;} */
+        ul.nav li {padding: 0 8px}
+    }
+
+    @media (max-width: 700px)
+    {
+        .logo {max-width:100%; height:auto; padding-top: 60px;}
+        
+        ul.nav li {display: flex;
+            align-items: stretch;   /* initial setting; can be omitted */
+            flex-wrap: wrap;}
+        /* #form {display: block;} */
+        .nav-right {
+            padding-bottom: 50%;
+            padding-top: 10px;
+            position: absolute;
+            left: 0px;
+            float: left;
+        }
+        .search{font-size: 14px; }
+            .header-container {
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-gap: 10px;
+            }
+        /* ul.nav {display: block;} */
+        /* ul.nav li {display: inline-block; padding: 0 50px} */
+    }
 
 
   .embed.hide{
